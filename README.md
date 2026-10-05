@@ -2,12 +2,14 @@
 
 Small, runnable product prototypes for realistic data and AI operations problems. Each app uses generated demo data, runs entirely in the browser, and avoids external APIs or credentials.
 
+**Live demos:** [Open the project site](https://sumeetamin.github.io/applied-ml-ai-prototypes/).
+
 ## Live demos
 
-- [Support Capacity Planner](./apps/support-capacity-planner/) — forecasts support arrivals and estimates staffing with an Erlang C service-level model.
-- [Prompt Injection Defense Lab](./apps/prompt-injection-defense-lab/) — explores attack detection, benchmark trade-offs, and least-privilege tool decisions.
+- [Support Capacity Planner](./apps/support-capacity-planner/) — forecasts support arrivals and estimates staffing with an Erlang C service-level model. [Run demo](https://sumeetamin.github.io/applied-ml-ai-prototypes/apps/support-capacity-planner/).
+- [Prompt Injection Defense Lab](./apps/prompt-injection-defense-lab/) — explores attack detection, benchmark trade-offs, and least-privilege tool decisions. [Run demo](https://sumeetamin.github.io/applied-ml-ai-prototypes/apps/prompt-injection-defense-lab/).
 
-The site is designed for GitHub Pages. After publishing, the homepage links to both demos.
+The repository root is published to GitHub Pages from `main`.
 
 ## Run locally
 
@@ -19,5 +21,5 @@ These are portfolio prototypes using deterministic synthetic data. They are not 
 
 ## Deployment
 
-The included GitHub Actions workflow publishes the repository root to GitHub Pages on pushes to `main`.
+GitHub Pages publishes from the root of the `main` branch. Every committed HTML, CSS, or JavaScript update is reflected in the demos after the Pages build finishes.
 
