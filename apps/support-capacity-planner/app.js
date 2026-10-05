@@ -46,7 +46,8 @@ function erlangC(agents, arrivalRate, serviceRate) {
   const last = term * offered / agents;
   const utilization = offered / agents;
   const wait = (last / (1 - utilization)) / (sum + last / (1 - utilization));
-  const service = 1 - wait * Math.exp(-(agents * serviceRate - arrivalRate) * Number(byId("answer").value));
+  const answerTimeHours = Number(byId("answer").value) / 3600;
+  const service = 1 - wait * Math.exp(-(agents * serviceRate - arrivalRate) * answerTimeHours);
   return { wait, utilization, service };
 }
 function staffFor(tickets, hours, ahtMinutes, serviceTarget, peakMultiplier) {
