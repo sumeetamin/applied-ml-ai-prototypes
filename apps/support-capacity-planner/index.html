@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Forecast synthetic support demand and estimate staffing with Erlang C.">
+  <title>Support Capacity Planner | Applied ML & AI</title><link rel="stylesheet" href="../../styles.css">
+</head>
+<body>
+  <header class="site-header"><a class="brand" href="../../">SA <span>Applied ML</span></a><span class="header-note">OPERATIONS RESEARCH · DEMO</span></header>
+  <main class="app-main">
+    <a class="back" href="../../">← ALL PROTOTYPES</a>
+    <section class="app-hero"><div><p class="eyebrow">WORKFORCE PLANNING</p><h1>Support Capacity Planner</h1><p>Explore how demand assumptions and service targets change peak-hour staffing. The forecast and ticket history are synthetic; use the planner to reason about scenarios, not to schedule a real team.</p></div><span class="status-pill">● SYNTHETIC DEMO</span></section>
+    <div class="dashboard-grid">
+      <aside class="panel">
+        <h2>Planning assumptions</h2>
+        <div class="form-row"><label for="horizon">Forecast horizon <output id="horizon-out">14 days</output></label><input id="horizon" type="range" min="7" max="28" value="14"><div class="helper">Longer horizons use the same weekday pattern; uncertainty grows with time.</div></div>
+        <div class="form-row"><label for="hours">Operating hours/day <output id="hours-out">10 hours</output></label><input id="hours" type="range" min="6" max="16" value="10"></div>
+        <div class="form-row"><label for="aht">Average handle time <output id="aht-out">8 min</output></label><input id="aht" type="range" min="3" max="20" value="8"></div>
+        <div class="form-row"><label for="service">Service-level target <output id="service-out">80%</output></label><input id="service" type="range" min="60" max="95" value="80" step="5"></div>
+        <div class="form-row"><label for="answer">Answer within <output id="answer-out">60 sec</output></label><input id="answer" type="range" min="20" max="180" value="60" step="10"></div>
+        <div class="form-row"><label for="peak">Peak-hour concentration <output id="peak-out">1.6×</output></label><input id="peak" type="range" min="10" max="30" value="16"><div class="helper">Peak-hour arrivals as a multiple of the operating-day hourly average.</div></div>
+        <button class="btn" id="recalculate">Recalculate plan</button>
+      </aside>
+      <section>
+        <div class="metrics" id="metrics"></div>
+        <div class="panel chart-panel"><h2>Ticket volume · history and forecast</h2><svg class="chart" id="volume-chart" role="img" aria-label="Synthetic daily ticket volume and forecast"></svg><p class="note">History is a seeded synthetic series with weekday seasonality, mild growth and random variation. The forecast uses weekday averages with a damped recent trend.</p></div>
+        <div class="panel"><h2>Daily capacity plan</h2><div class="table-wrap"><table><thead><tr><th>Day</th><th>Forecast tickets</th><th>Peak hour arrivals</th><th>Agents needed</th><th>Peak utilization</th><th>Service level</th></tr></thead><tbody id="plan-body"></tbody></table></div></div>
+      </section>
+    </div>
+    <section class="panel" style="margin-top:18px"><h2>Model notes</h2><p class="note">Staffing uses the Erlang C queueing model for a single pooled queue, stationary arrivals within the peak hour, identical agents, and exponential service times. It returns the smallest whole-agent count meeting both the service-level and 85% utilization cap. Real contact centers need interval-level arrival forecasts, shrinkage, skills, breaks, channel mix and empirical service distributions. This demo excludes those effects.</p><div class="warning">Planning aid only. Validate queue assumptions and local operating constraints with workforce-management data before making staffing decisions.</div></section>
+    <footer class="footer-small">Independent portfolio demo · No customer or employer data · <a href="../../">Project home</a></footer>
+  </main><script src="app.js"></script>
+</body>
+</html>
+
