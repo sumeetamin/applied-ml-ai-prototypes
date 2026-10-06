@@ -12,6 +12,7 @@ How many concurrent agents would be needed on each forecast day to answer at lea
 - Forecasts 7–28 days from recent weekday averages, with a damped recent trend.
 - Converts daily volume into a peak-hour arrival rate using operating hours and a configurable peak concentration.
 - Finds the smallest integer staffing level meeting both the service-level target and a maximum 85% modeled utilization.
+- Compares the base forecast plan with a user-selected 0–50% demand-uplift scenario and reports the additional peak staffing required.
 - Shows the history, forecast, queue assumptions, and daily staffing table together so a planner can inspect the effect of changing assumptions.
 
 ## Queueing method
@@ -20,7 +21,7 @@ The staffing estimate uses Erlang C for a single pooled queue. For arrival rate 
 
 ## Assumptions and limitations
 
-This is an educational planning model, not a production workforce-management system. It assumes a stationary peak-hour arrival rate, identical agents, one pooled queue, exponential service times, and no abandonment. It excludes interval-level seasonality, channel mix, service skills, breaks, shrinkage, occupancy preferences, agent schedules, and forecast uncertainty intervals. The generated ticket data is synthetic and has no relation to an employer or customer.
+This is an educational planning model, not a production workforce-management system. It assumes a stationary peak-hour arrival rate, identical agents, one pooled queue, exponential service times, and no abandonment. The demand-uplift control is a scenario selected by the user, not a statistically estimated confidence interval. It excludes interval-level seasonality, channel mix, service skills, breaks, shrinkage, occupancy preferences, agent schedules, and forecast uncertainty intervals. The generated ticket data is synthetic and has no relation to an employer or customer.
 
 For a production extension, use interval-level arrival and handle-time data, backtest forecasts with rolling-origin splits, compare the staffing plan with actual service outcomes, model shrinkage and skills, and quantify forecast uncertainty before making staffing decisions.
 

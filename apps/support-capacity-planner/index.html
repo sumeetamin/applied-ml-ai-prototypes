@@ -19,12 +19,13 @@
         <div class="form-row"><label for="service">Service-level target <output id="service-out">80%</output></label><input id="service" type="range" min="60" max="95" value="80" step="5"></div>
         <div class="form-row"><label for="answer">Answer within <output id="answer-out">60 sec</output></label><input id="answer" type="range" min="20" max="180" value="60" step="10"></div>
         <div class="form-row"><label for="peak">Peak-hour concentration <output id="peak-out">1.6×</output></label><input id="peak" type="range" min="10" max="30" value="16"><div class="helper">Peak-hour arrivals as a multiple of the operating-day hourly average.</div></div>
+        <div class="form-row"><label for="demand-uplift">Demand stress scenario <output id="uplift-out">15%</output></label><input id="demand-uplift" type="range" min="0" max="50" value="15" step="5"><div class="helper">Compare staffing if forecast volume is higher by this user-selected amount. This is a what-if scenario, not a statistical confidence interval.</div></div>
         <button class="btn" id="recalculate">Recalculate plan</button>
       </aside>
       <section>
         <div class="metrics" id="metrics"></div>
         <div class="panel chart-panel"><h2>Ticket volume · history and forecast</h2><svg class="chart" id="volume-chart" role="img" aria-label="Synthetic daily ticket volume and forecast"></svg><p class="note">History is a seeded synthetic series with weekday seasonality, mild growth and random variation. The forecast uses weekday averages with a damped recent trend.</p></div>
-        <div class="panel"><h2>Daily capacity plan</h2><div class="table-wrap"><table><thead><tr><th>Day</th><th>Forecast tickets</th><th>Peak hour arrivals</th><th>Agents needed</th><th>Peak utilization</th><th>Service level</th></tr></thead><tbody id="plan-body"></tbody></table></div></div>
+        <div class="panel"><h2>Daily capacity plan</h2><div class="table-wrap"><table><thead><tr><th>Day</th><th>Forecast tickets</th><th>Peak hour arrivals</th><th>Agents · base</th><th>Agents · stress</th><th>Peak utilization</th><th>Service level</th></tr></thead><tbody id="plan-body"></tbody></table></div></div>
       </section>
     </div>
     <section class="panel" style="margin-top:18px"><h2>Model notes</h2><p class="note">Staffing uses the Erlang C queueing model for a single pooled queue, stationary arrivals within the peak hour, identical agents, and exponential service times. It returns the smallest whole-agent count meeting both the service-level and 85% utilization cap. Real contact centers need interval-level arrival forecasts, shrinkage, skills, breaks, channel mix and empirical service distributions. This demo excludes those effects.</p><div class="warning">Planning aid only. Validate queue assumptions and local operating constraints with workforce-management data before making staffing decisions.</div></section>

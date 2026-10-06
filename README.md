@@ -6,8 +6,8 @@ Small, runnable product prototypes for realistic data and AI operations problems
 
 ## Live demos
 
-- [Support Capacity Planner](./apps/support-capacity-planner/) — forecasts support arrivals and estimates staffing with an Erlang C service-level model. [Run demo](https://sumeetamin.github.io/applied-ml-ai-prototypes/apps/support-capacity-planner/).
-- [Prompt Injection Defense Lab](./apps/prompt-injection-defense-lab/) — explores attack detection, benchmark trade-offs, and least-privilege tool decisions. [Run demo](https://sumeetamin.github.io/applied-ml-ai-prototypes/apps/prompt-injection-defense-lab/).
+- [Support Capacity Planner](./apps/support-capacity-planner/) — forecasts support arrivals, estimates Erlang C staffing, and compares base plans with a demand-uplift scenario. [Run demo](https://sumeetamin.github.io/applied-ml-ai-prototypes/apps/support-capacity-planner/).
+- [Prompt Injection Defense Lab](./apps/prompt-injection-defense-lab/) — inspects heuristic match evidence, reports challenge-set trade-offs, and demonstrates least-privilege tool decisions. [Run demo](https://sumeetamin.github.io/applied-ml-ai-prototypes/apps/prompt-injection-defense-lab/).
 
 The repository root is published to GitHub Pages from `main`.
 

@@ -1,5 +1,5 @@
 const byId = (id) => document.getElementById(id);
-const controls = ["horizon", "hours", "aht", "service", "answer", "peak"];
+const controls = ["horizon", "hours", "aht", "service", "answer", "peak", "demand-uplift"];
 const weekPattern = [0.72, 0.91, 1.04, 1.13, 1.18, 0.94, 0.67];
 let state = { history: [], forecast: [] };
 
@@ -86,19 +86,25 @@ function render() {
   const horizon = Number(byId("horizon").value); const hours = Number(byId("hours").value);
   const aht = Number(byId("aht").value); const target = Number(byId("service").value) / 100;
   const peak = Number(byId("peak").value) / 10; const answer = Number(byId("answer").value);
+  const uplift = Number(byId("demand-uplift").value);
   byId("horizon-out").textContent = `${horizon} days`; byId("hours-out").textContent = `${hours} hours`;
   byId("aht-out").textContent = `${aht} min`; byId("service-out").textContent = `${Math.round(target * 100)}%`;
   byId("answer-out").textContent = `${answer} sec`; byId("peak-out").textContent = `${peak.toFixed(1)}×`;
+  byId("uplift-out").textContent = `${uplift}%`;
   state.history = buildHistory(); state.forecast = makeForecast(state.history, horizon);
-  const plans = state.forecast.map((d) => ({ ...d, ...staffFor(d.count, hours, aht, target, peak) }));
+  const plans = state.forecast.map((d) => ({
+    ...d,
+    base: staffFor(d.count, hours, aht, target, peak),
+    stress: staffFor(d.count * (1 + uplift / 100), hours, aht, target, peak),
+  }));
   const avg = Math.round(plans.reduce((s, d) => s + d.count, 0) / plans.length);
-  const maxPlan = plans.reduce((a, b) => a.peakArrivals > b.peakArrivals ? a : b);
-  const avgAgents = Math.ceil(plans.reduce((s, d) => s + d.agents, 0) / plans.length);
+  const maxPlan = plans.reduce((a, b) => a.base.peakArrivals > b.base.peakArrivals ? a : b);
+  const stressPeakAgents = Math.max(...plans.map((d) => d.stress.agents));
   byId("metrics").innerHTML = [
-    ["AVG DAILY VOLUME", avg, "forecast tickets / day"], ["PEAK-HOUR STAFF", maxPlan.agents, "agents at the busiest peak"],
-    ["AVG STAFF PLAN", avgAgents, "agents at the modeled peak"], ["TARGET SERVICE", `${Math.round(target * 100)}%`, `within ${answer}s · Erlang C`],
+    ["AVG DAILY VOLUME", avg, "forecast tickets / day"], ["BASE PEAK STAFF", maxPlan.base.agents, "agents at busiest modeled peak"],
+    ["STRESS PEAK STAFF", stressPeakAgents, `agents at +${uplift}% demand`], ["TARGET SERVICE", `${Math.round(target * 100)}%`, `within ${answer}s · Erlang C`],
   ].map(([label, value, sub]) => `<div class="metric"><div class="metric-label">${label}</div><div class="metric-value">${value}</div><div class="metric-sub">${sub}</div></div>`).join("");
-  byId("plan-body").innerHTML = plans.map((d) => `<tr><td>${fmtDate(d.date)}</td><td>${d.count}</td><td>${d.peakArrivals.toFixed(1)} / hr</td><td class="staff">${d.agents}</td><td>${(d.utilization * 100).toFixed(0)}%</td><td>${(d.service * 100).toFixed(1)}%</td></tr>`).join("");
+  byId("plan-body").innerHTML = plans.map((d) => `<tr><td>${fmtDate(d.date)}</td><td>${d.count}</td><td>${d.base.peakArrivals.toFixed(1)} / hr</td><td class="staff">${d.base.agents}</td><td class="staff">${d.stress.agents}</td><td>${(d.base.utilization * 100).toFixed(0)}%</td><td>${(d.base.service * 100).toFixed(1)}%</td></tr>`).join("");
   drawChart(state.history, state.forecast);
 }
 controls.forEach((id) => byId(id).addEventListener("input", render));
